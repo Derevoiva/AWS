@@ -1,29 +1,26 @@
 name: 'test AWS Access'
  
 on:
-  workflow_dispatch:  
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch
 
  
 permissions:
   id-token: write
-  contents: read 
+  
  
 jobs:
-  aws:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  read-dev:
+     runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+             uses: actions/checkout@v3
  
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::362356772159:role/sts-lab-2-target
-          role-session-name: OIDCSession
- 
-      - run: aws secretsmanager get-secret-value --secret-id flag_sts_lab_2
-        shell: bash
+          - name: Configure AWS Credentials
+            uses: aws-actions/configure-aws-credentials@v1
+            with:
+              aws-region: us-east-1
+              role-to-assume: arn:aws:iam::362356772159:role/sts-lab-2-target
+              role-session-name: OIDCSession
+     
+          - run: aws secretsmanager get-secret-value --secret-id flag_sts_lab_2
+            shell: bash
